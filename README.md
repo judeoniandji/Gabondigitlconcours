@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Digitalisation des Concours Administratifs du Gabon
 
 ## Structure du projet
@@ -95,3 +96,6 @@ Configurer la base de données PostgreSQL et connecter le backend.
 ---
 
 Pour toute question ou pour démarrer le développement métier, lance la prochaine étape ou demande un focus sur un point précis.
+=======
+# Gabondigitlconcours
+>>>>>>> a7439b0531a045ec454c94e45cc2c13331556afd
