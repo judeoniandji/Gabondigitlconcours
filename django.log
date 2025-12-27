@@ -1,0 +1,311 @@
+Watching for file changes with StatReloader
+Not Found: /
+"GET / HTTP/1.1" 404 3298
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3349
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\urls.py changed, reloading.
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 45
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\views.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\backend\views.py", line 4, in home
+    return render(request, "home.html")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: home.html
+"GET / HTTP/1.1" 500 88907
+Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\backend\views.py", line 4, in home
+    return render(request, "home.html")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: home.html
+"GET / HTTP/1.1" 500 88907
+Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\backend\views.py", line 4, in home
+    return render(request, "home.html")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\venv\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: home.html
+"GET / HTTP/1.1" 500 88907
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\settings.py changed, reloading.
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1847
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\asgiref\current_thread_executor.py changed, reloading.
+C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\asgiref\__init__.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\conf\locale\__init__.py changed, reloading.
+C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\conf\locale\__init__.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+Bad Request: /api/token/
+"POST /api/token/ HTTP/1.1" 400 107
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\urls.py changed, reloading.
+Watching for file changes with StatReloader
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py changed, reloading.
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1847
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1847
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+Bad Request: /api/users/token/email/
+"POST /api/users/token/email/ HTTP/1.1" 400 107
+Bad Request: /api/users/token/email/
+"POST /api/users/token/email/ HTTP/1.1" 400 107
+Internal Server Error: /api/users/token/email/
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\views\generic\base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py", line 16, in validate
+    user = User.objects.get(email=email)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\db\models\query.py", line 642, in get
+    raise self.model.MultipleObjectsReturned(
+users.models.User.MultipleObjectsReturned: get() returned more than one User -- it returned 2!
+"POST /api/users/token/email/ HTTP/1.1" 500 123693
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+Unauthorized: /api/users/token/email/
+"POST /api/users/token/email/ HTTP/1.1" 401 63
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\authentication.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+Watching for file changes with StatReloader
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\views.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\views.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\views.py changed, reloading.
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"GET / HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1847
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0

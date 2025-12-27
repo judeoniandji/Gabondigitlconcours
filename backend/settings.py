@@ -63,7 +63,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'backend' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,9 +86,9 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gabon_concours',   # nom de la base PostgreSQL
-        'USER': 'postgres',           # utilisateur PostgreSQL
-        'PASSWORD': 'Anna',           # mot de passe PostgreSQL
+        'NAME': 'Concours_gab',   # nom de la base PostgreSQL
+        'USER': 'concours_user',           # utilisateur PostgreSQL
+        'PASSWORD': 'Anna',           # mot de passe PostgreSQLnna
         'HOST': 'localhost',          # serveur PostgreSQL
         'PORT': '5432',               # port PostgreSQL
     }

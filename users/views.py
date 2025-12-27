@@ -1,8 +1,21 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from rest_framework import viewsets
 from .models import User, Candidat, Gestionnaire
 from .serializers import UserSerializer, CandidatSerializer, GestionnaireSerializer
+
+def login_view(request):
+    error = ""
+    if request.method == "POST":
+        username = request.POST["username"]  # Peut être un email
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("dashboard")  # À adapter selon votre projet
+        else:
+            error = "Identifiants invalides"
+    return render(request, "login.html", {"error": error})
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

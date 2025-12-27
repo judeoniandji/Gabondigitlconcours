@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil Digital Concours Gabon</title>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #009739 0%, #ffec00 50%, #3a75c4 100%);
+        }
+        .logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 2rem;
+        }
+        .marquee {
+            width: 100vw;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.5);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .marquee span {
+            display: inline-block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #009739;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee {
+            0%   { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        h1 {
+            color: #3a75c4;
+            background: #ffec00;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body>
+    <img src="/static/logo512.png" alt="Logo Gabon Digital Concours" class="logo" />
+    <div class="marquee"><span>Bienvenue sur Digital Concours Gabon - Un avenir meilleur pour la jeunesse !</span></div>
+    <h1>Digital Concours Gabon</h1>
+</body>
+</html>
