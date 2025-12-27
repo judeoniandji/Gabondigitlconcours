@@ -90,6 +90,15 @@ digital-concours/
 - Backend Django REST Framework prêt (apps : users, concours, payments, notifications)
 - Frontend React créé (structure de base)
 
+## Identifiants de connexion de test
+
+- Nom d’utilisateur : **admin**
+- Nom d’utilisateur : **jude**
+- Nom d’utilisateur : **oniandjibernard**
+- Mot de passe (pour tous) : **Anna1234**
+
+Utilisez ces identifiants pour vous connecter à l’application (frontend ou /admin/).
+
 ## Prochaine étape
 Configurer la base de données PostgreSQL et connecter le backend.
 
