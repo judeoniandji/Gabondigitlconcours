@@ -22,9 +22,15 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 class CandidatViewSet(viewsets.ModelViewSet):
-    queryset = Candidat.objects.all()
+    # Eager load the related User object to prevent N+1 queries.
+    # This significantly improves performance by reducing the number of database queries
+    # from N+1 to just one, where N is the number of candidates.
+    queryset = Candidat.objects.select_related('user').all()
     serializer_class = CandidatSerializer
 
 class GestionnaireViewSet(viewsets.ModelViewSet):
-    queryset = Gestionnaire.objects.all()
+    # Eager load the related User object to prevent N+1 queries.
+    # This significantly improves performance by reducing the number of database queries
+    # from N+1 to just one, where N is the number of managers.
+    queryset = Gestionnaire.objects.select_related('user').all()
     serializer_class = GestionnaireSerializer
