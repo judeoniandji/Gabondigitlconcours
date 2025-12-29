@@ -1,8 +1,16 @@
 import { render, screen } from '@testing-library/react';
+jest.mock('./services/api', () => ({
+  __esModule: true,
+  default: {
+    interceptors: { request: { use: () => {} } },
+    post: () => Promise.resolve({ data: {} }),
+    get: () => Promise.resolve({ data: [] }),
+  },
+}));
 import App from './App';
 
-test('renders learn react link', () => {
+test('affiche la page de connexion', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const heading = screen.getByText(/Connexion/i);
+  expect(heading).toBeInTheDocument();
 });

@@ -87,3 +87,40 @@ INSCRIPTION → VALIDATION DOSSIER → PAIEMENT → VALIDATION ADMIN → CONVOCA
 - Génération automatique de statistiques avancées
 - Export PDF/Excel des listes
 - API mobile
+
+---
+
+## Avancées réalisées (Déc 2025)
+- Backend lancé en développement: `http://127.0.0.1:8000/` (Django) 
+- Authentification JWT opérationnelle: `POST /api/token/`, `POST /api/users/token/email/` 
+- RBAC implémenté côté API: candidats, gestionnaires, jury, secrétaire, correcteur, président de jury 
+- Modèles concours enrichis: séries, matières, notes, statut publication des résultats 
+- Routes sécurisées et filtrage:
+  - `GET/POST /api/concours/concours/` (filtre `?ouvert=true`) 
+  - `GET/POST /api/concours/series/`, `matieres/`, `notes/` 
+  - `PUT /api/concours/notes/{id}/valider/` (président de jury) 
+  - `PUT /api/concours/concours/{id}/publier/` (publication officielle) 
+- Journalisation des actions (AuditLog): activation utilisateurs, validation notes, publication concours 
+- Interface React d’administration:
+  - Menu admin avec liens rapides (API, Swagger, gestion) 
+  - Page "Explorateur API Admin" pour tester les endpoints avec JWT 
+  - Page "Gestion des profils" (CRUD utilisateurs, rôles, activation staff) 
+  - Sélecteur d’espace par rôle (Candidat/Jury/Secrétaire/Gestion) 
+- Déconnexion forcée d’un utilisateur: `POST /api/users/logout_user/` (révocation JWT) 
+- Paiement Airtel: endpoints et client prêts pour sandbox 
+
+## Vérifications effectuées (E2E)
+- Création concours → série → matières → inscription candidat → saisie des notes par correcteur → validation par président → classement par série → publication 
+- Exemple de classement sérialisé: moyenne calculée et anonymat respecté (numéro candidat) 
+
+## Instructions de lancement (dev)
+- Variables: `DB_USE_SQLITE=True` (SQLite dev) 
+- Démarrer: `python manage.py runserver` 
+- Swagger: `http://127.0.0.1:8000/swagger/` 
+- Frontend (si lancé): `http://localhost:3001/` 
+
+## Prochaines étapes
+- UI jury: saisie/édition par matière, validation par président 
+- Masquage des identités côté jury/correcteurs dans toutes les réponses 
+- Tests automatiques DRF et CI lint/typecheck 
+- Paramètres de production (PostgreSQL, CORS/CSRF, https)

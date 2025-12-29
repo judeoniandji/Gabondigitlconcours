@@ -4,3 +4,6 @@ djangorestframework>=3.14
 django-cors-headers>=4.0
 python-dotenv>=1.0
 djangorestframework-simplejwt>=5.2
+drf-yasg>=1.21
+requests>=2.31
+twilio>=9.0
