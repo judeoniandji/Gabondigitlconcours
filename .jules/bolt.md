@@ -1,0 +1,3 @@
+## 2024-07-26 - Avoid Committing Compiled Artifacts
+**Learning:** Committing compiled Python files (`__pycache__` directories and `*.pyc` files) is a critical error that bloats the repository and can cause merge conflicts. These files are machine-specific and should never be in version control. The code review correctly identified this as a blocking issue, even though the `.gitignore` was technically correct, because the files had been previously tracked.
+**Action:** Before any submission, I must verify that no compiled artifacts are staged for commit. I will use `git status` to double-check the file list. If such files appear, I will remove them from the staging area and ensure they are properly ignored for all future commits.
