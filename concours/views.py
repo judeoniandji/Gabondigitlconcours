@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Sum, F
+from django.db.models import Sum, F, ExpressionWrapper, FloatField
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
@@ -76,19 +76,34 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
-        return Response({'serie': serie.id, 'classement': classement})
+        coeff_sum = serie.matieres.aggregate(total=Sum('coefficient'))['total'] or 1.0
+
+        # This query calculates the weighted score for each candidate at the database level.
+        # It annotates each candidate with a 'score' by summing the product of note value and matiere coefficient.
+        # This is significantly more efficient than fetching all notes and processing them in Python.
+        notes = Note.objects.filter(matiere__serie=serie, etat='valide') \
+            .values('candidat__numero_candidat') \
+            .annotate(score=Sum(F('valeur') * F('matiere__coefficient'))) \
+            .order_by('-score')
+
+        # The calculated score is then used to determine the average,
+        # which is wrapped in an ExpressionWrapper to specify the output field type.
+        # This avoids potential precision issues with DecimalField in aggregations.
+        classement = notes.annotate(
+            moyenne=ExpressionWrapper(
+                F('score') / float(coeff_sum),
+                output_field=FloatField()
+            )
+        ).values('candidat__numero_candidat', 'moyenne')
+
+        # The resulting classement is a list of dictionaries, ready for the response.
+        # The ordering is handled by the database, making the sort in Python redundant.
+        classement_list = [
+            {'numero_candidat': item['candidat__numero_candidat'], 'moyenne': round(item['moyenne'], 2)}
+            for item in classement
+        ]
+
+        return Response({'serie': serie.id, 'classement': classement_list})
 
 class MatiereViewSet(viewsets.ModelViewSet):
     queryset: QuerySet[Matiere] = Matiere.objects.all()
