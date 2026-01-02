@@ -76,18 +76,33 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
+        coeff_sum = serie.matieres.aggregate(total_coeff=Sum('coefficient'))['total_coeff']
+        if not coeff_sum:
+            return Response({'serie': serie.id, 'classement': []})
+
+        # The original implementation fetched all notes and calculated scores in Python,
+        # leading to a potential N+1 query problem and inefficient processing for large datasets.
+        # This optimized version offloads the entire calculation to the database using a single query.
+        # It uses `annotate` to calculate the weighted sum of points for each candidate and
+        # then divides by the total coefficient sum to get the average, all at the DB level.
+        # `F` expressions are used to perform arithmetic on model fields directly in the database.
+        # The result is ordered by the calculated average in descending order.
+        classement_data = Note.objects.filter(
+            matiere__serie=serie, etat='valide'
+        ).values(
+            'candidat__numero_candidat'
+        ).annotate(
+            total_points=Sum(F('valeur') * F('matiere__coefficient'))
+        ).order_by('-total_points')
+
+        classement = [
+            {
+                'numero_candidat': item['candidat__numero_candidat'],
+                'moyenne': round(item['total_points'] / coeff_sum, 2)
+            }
+            for item in classement_data
+        ]
+
         return Response({'serie': serie.id, 'classement': classement})
 
 class MatiereViewSet(viewsets.ModelViewSet):
