@@ -4,7 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Sum, F
+from django.db.models import Sum, F, FloatField, ExpressionWrapper, CharField
+from django.db.models.functions import Coalesce, Cast
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
@@ -76,19 +77,29 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
-        return Response({'serie': serie.id, 'classement': classement})
+        # ⚡ Bolt: Performance Optimization
+        # The original implementation fetched all notes for a series and calculated scores in Python.
+        # This was inefficient as it involved processing a large number of objects in memory.
+        # The optimized version below moves the entire calculation to the database using a single,
+        # efficient query. This reduces data transfer and leverages the database's optimized
+        # processing capabilities, resulting in a significant performance improvement.
+        coeff_sum = serie.matieres.aggregate(total=Sum('coefficient'))['total'] or 1.0
+
+        # This query calculates the weighted average for each candidate in a single database round-trip.
+        # It groups notes by candidate, computes the sum of (note_value * coefficient),
+        # divides by the total coefficient for the series, and orders the results.
+        # `Coalesce` is used to handle cases where `numero_candidat` might be null, falling back to `candidat_id`.
+        classement = Note.objects.filter(
+            matiere__serie=serie, etat='valide'
+        ).values('candidat').annotate(
+            numero_candidat=Coalesce('candidat__numero_candidat', Cast('candidat_id', CharField())),
+            moyenne=ExpressionWrapper(
+                Sum(F('valeur') * F('matiere__coefficient'), output_field=FloatField()) / float(coeff_sum),
+                output_field=FloatField()
+            )
+        ).values('numero_candidat', 'moyenne').order_by('-moyenne')
+
+        return Response({'serie': serie.id, 'classement': list(classement)})
 
 class MatiereViewSet(viewsets.ModelViewSet):
     queryset: QuerySet[Matiere] = Matiere.objects.all()
