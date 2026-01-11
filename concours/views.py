@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Sum, F
+from django.db.models import Sum, F, FloatField
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
@@ -76,18 +76,49 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
+
+        # Optimized calculation for the sum of coefficients for the series.
+        # This is done in the database to avoid pulling all subjects into memory.
+        # Coalesce handles cases where a series might not have any subjects.
+        from django.db.models import FloatField
+        from django.db.models.functions import Coalesce
+
+        coeff_sum = serie.matieres.aggregate(
+            total_coeff=Coalesce(Sum('coefficient', output_field=FloatField()), 0.0)
+        )['total_coeff']
+
+        # If there are no coefficients, return an empty ranking to prevent division by zero.
+        if coeff_sum == 0.0:
+            return Response({'serie': serie.id, 'classement': []})
+
+        # This single, optimized query replaces the inefficient in-memory Python loop.
+        # It calculates candidate scores and averages directly in the database.
+        # 1. Filters for valid notes in the current series.
+        # 2. Groups notes by candidate.
+        # 3. Annotates each group with the calculated average score (moyenne).
+        # 4. Orders the results by the average score in descending order.
+        classement_data = Note.objects.filter(
+            matiere__serie=serie,
+            etat='valide'
+        ).values(
+            'candidat_id',
+            'candidat__numero_candidat'
+        ).annotate(
+            total_points=Sum(F('valeur') * F('matiere__coefficient'), output_field=FloatField())
+        ).annotate(
+            moyenne=F('total_points') / coeff_sum
+        ).order_by('-moyenne')
+
+        # The database returns precise floats; this list comprehension rounds them for the final response.
+        # It also handles cases where a candidate may not have a numero_candidat assigned yet.
+        classement = [
+            {
+                'numero_candidat': data['candidat__numero_candidat'] or data['candidat_id'],
+                'moyenne': round(data['moyenne'], 2)
+            }
+            for data in classement_data
+        ]
+
         return Response({'serie': serie.id, 'classement': classement})
 
 class MatiereViewSet(viewsets.ModelViewSet):
