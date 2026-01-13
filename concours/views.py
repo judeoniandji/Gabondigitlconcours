@@ -4,7 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Sum, F
+from django.db.models import Sum, F, FloatField, CharField
+from django.db.models.functions import Coalesce, Cast
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
@@ -76,18 +77,39 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
+        # total des coefficients pour la série
+        total_coeffs = serie.matieres.aggregate(total=Sum('coefficient'))['total'] or 1.0
+
+        # Le calcul est maintenant entièrement délégué à la base de données
+        # pour éviter les boucles en Python et les problèmes de performance (N+1 queries).
+        classement_query = Note.objects.filter(
+            matiere__serie=serie,
+            etat='valide'
+        ).values(
+            'candidat' # On groupe par candidat
+        ).annotate(
+            # Coalesce est utilisé pour obtenir le numéro de candidat s'il existe, sinon l'ID du candidat
+            numero_candidat=Coalesce(
+                'candidat__numero_candidat',
+                Cast('candidat_id', CharField())
+            ),
+            # Calcul du total des points pondérés pour chaque candidat
+            total_points=Sum(F('valeur') * F('matiere__coefficient'), output_field=FloatField())
+        ).annotate(
+            # Calcul de la moyenne générale
+            moyenne_brute=F('total_points') / float(total_coeffs)
+        ).order_by(
+            '-moyenne_brute' # Tri par moyenne en ordre décroissant
+        ).values(
+            'numero_candidat', 'moyenne_brute'
+        )
+
+        # Arrondir les moyennes en Python
+        classement = [
+            {'numero_candidat': item['numero_candidat'], 'moyenne': round(item['moyenne_brute'], 2)}
+            for item in classement_query
+        ]
+
         return Response({'serie': serie.id, 'classement': classement})
 
 class MatiereViewSet(viewsets.ModelViewSet):
