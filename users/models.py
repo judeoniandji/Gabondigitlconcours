@@ -25,6 +25,7 @@ class Candidat(models.Model):
     ville_naissance = models.CharField(max_length=100, blank=True)
     adresse = models.CharField(max_length=255, blank=True)
     document_identite = models.FileField(upload_to='documents/', blank=True)
+    historique_academique = models.TextField(blank=True, help_text="Détails du parcours académique")
     numero_candidat = models.CharField(max_length=20, unique=True, null=True, blank=True)
     # Ajout d'autres champs spécifiques au candidat
 

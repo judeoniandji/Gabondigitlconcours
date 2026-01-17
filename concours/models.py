@@ -7,11 +7,13 @@ class Concours(models.Model):
     date_fermeture = models.DateField()
     frais_inscription = models.DecimalField(max_digits=10, decimal_places=2)
     publie = models.BooleanField(default=False)
+    admins = models.ManyToManyField('users.User', related_name='concours_administres', blank=True, limit_choices_to={'role__in': ['gestionnaire', 'admin']})
     # Ajout d'autres champs spécifiques au concours
 
 class Dossier(models.Model):
     candidat = models.ForeignKey('users.Candidat', on_delete=models.CASCADE)
     concours = models.ForeignKey('Concours', on_delete=models.CASCADE)
+    serie = models.ForeignKey('Serie', on_delete=models.SET_NULL, null=True, blank=True, related_name='dossiers')
     date_soumission = models.DateTimeField(auto_now_add=True)
     statut = models.CharField(max_length=20, default='en_attente')  # en_attente, valide, rejete
     justificatif = models.FileField(upload_to='justificatifs/', blank=True)

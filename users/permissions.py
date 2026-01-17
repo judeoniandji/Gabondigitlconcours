@@ -25,3 +25,7 @@ class IsCandidat(BasePermission):
     def has_permission(self, request, view) -> Any:
         u = request.user
         return bool(u and u.is_authenticated and getattr(u, 'role', None) == 'candidat')
+
+class IsCorrecteurOrAdmin(BasePermission):
+    def has_permission(self, request, view) -> Any:
+        return IsCorrecteur().has_permission(request, view) or IsGestionnaireOrAdmin().has_permission(request, view)

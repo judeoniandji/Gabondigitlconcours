@@ -74,7 +74,7 @@ class CandidatSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Candidat
-        fields = ['id', 'user', 'nom_complet', 'date_naissance', 'lieu_naissance', 'ville_naissance', 'adresse', 'document_identite', 'numero_candidat']
+        fields = ['id', 'user', 'nom_complet', 'date_naissance', 'lieu_naissance', 'ville_naissance', 'adresse', 'document_identite', 'numero_candidat', 'historique_academique']
 
 class GestionnaireSerializer(serializers.ModelSerializer):
     user = UserSerializer()

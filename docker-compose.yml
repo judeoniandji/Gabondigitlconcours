@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: Concours_gab
+      POSTGRES_USER: concours_user
+      POSTGRES_PASSWORD: secure_password_change_me
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U concours_user -d Concours_gab"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn backend.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    environment:
+      DB_USE_SQLITE: "False"
+      DB_NAME: Concours_gab
+      DB_USER: concours_user
+      DB_PASSWORD: secure_password_change_me
+      DB_HOST: db
+      DB_PORT: 5432
+      DJANGO_DEBUG: "False"
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,backend"
+      DJANGO_SECRET_KEY: "change_this_to_a_secure_random_string_in_production"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/usr/share/nginx/html/static-backend
+      - media_volume:/usr/share/nginx/html/media
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

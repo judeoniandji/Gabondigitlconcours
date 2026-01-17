@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Concours, Dossier, Resultat
 from .models import Serie, Matiere, Note
+from users.models import Candidat
 
 class ConcoursSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,6 +37,21 @@ class MatiereSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class NoteSerializer(serializers.ModelSerializer):
+    candidat_numero = serializers.CharField(source='candidat.numero_candidat', read_only=True)
+    candidat_numero_input = serializers.CharField(write_only=True, required=False)
+
     class Meta:
         model = Note
-        fields = '__all__'
+        fields = ['id', 'matiere', 'valeur', 'etat', 'saisi_par', 'valide_par', 'date_saisie', 'date_validation', 'candidat_numero', 'candidat_numero_input']
+        read_only_fields = ['saisi_par', 'valide_par', 'date_saisie', 'date_validation', 'etat']
+
+    def create(self, validated_data):
+        num = validated_data.pop('candidat_numero_input', None)
+        if num:
+            try:
+                candidat = Candidat.objects.get(numero_candidat=num)
+                validated_data['candidat'] = candidat
+            except Candidat.DoesNotExist:
+                raise serializers.ValidationError({"candidat_numero_input": "Candidat introuvable"})
+        return super().create(validated_data)
+

@@ -1781,3 +1781,388 @@ Unauthorized: /api/users/me/
 "GET /api/users/me/ HTTP/1.1" 401 172
 Unauthorized: /api/users/me/
 "GET /api/users/me/ HTTP/1.1" 401 172
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Internal Server Error: /api/concours/matieres/1/candidats/
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 503, in dispatch
+    self.initial(request, *args, **kwargs)
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 421, in initial
+    self.check_permissions(request)
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\rest_framework\views.py", line 337, in check_permissions
+    for permission in self.get_permissions():
+                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\CascadeProjects\digital-concours\concours\views.py", line 116, in get_permissions
+    return [IsCorrecteur() | IsGestionnaireOrAdmin()]
+            ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for |: 'IsCorrecteur' and 'IsGestionnaireOrAdmin'
+Bad Request: /api/payments/paiements/airtel/
+Bad Request: /api/payments/paiements/airtel/
+Bad Request: /api/users/users/
+Watching for file changes with StatReloader
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\settings.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+"GET /?ide_webview_request_time=1768232650651 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1847
+Not Found: /@vite/client
+"GET /@vite/client HTTP/1.1" 404 4024
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\backend\urls.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /?ide_webview_request_time=1768232860611 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1973
+Internal Server Error: /@vite/client
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+"GET /@vite/client HTTP/1.1" 500 93061
+"GET /?ide_webview_request_time=1768232862624 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1973
+Internal Server Error: /@vite/client
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+"GET /@vite/client HTTP/1.1" 500 93061
+"GET /?ide_webview_request_time=1768232863499 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1973
+Internal Server Error: /@vite/client
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+"GET /@vite/client HTTP/1.1" 500 93061
+"GET /?ide_webview_request_time=1768232863722 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1973
+Internal Server Error: /@vite/client
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+"GET /@vite/client HTTP/1.1" 500 93061
+"GET /?ide_webview_request_time=1768232864842 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1973
+Internal Server Error: /@vite/client
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+"GET /@vite/client HTTP/1.1" 500 93061
+"GET /?ide_webview_request_time=1768232865624 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1973
+Internal Server Error: /@vite/client
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+"GET /@vite/client HTTP/1.1" 500 93061
+"GET /?ide_webview_request_time=1768232868924 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1973
+Internal Server Error: /@vite/client
+Traceback (most recent call last):
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\core\handlers\base.py", line 221, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KURTIS\AppData\Roaming\Python\Python312\site-packages\django\template\loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: index.html
+"GET /@vite/client HTTP/1.1" 500 93061
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Watching for file changes with StatReloader
+"GET /?ide_webview_request_time=1768234724487 HTTP/1.1" 200 1640
+"GET /static/logo512.png HTTP/1.1" 404 1847
+Not Found: /@vite/client
+"GET /@vite/client HTTP/1.1" 404 4024
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+"OPTIONS /api/users/me/ HTTP/1.1" 200 0
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+"OPTIONS /api/users/users/ HTTP/1.1" 200 0
+Unauthorized: /api/users/users/
+"POST /api/users/users/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+"POST /api/users/users/ HTTP/1.1" 201 156
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+"OPTIONS /api/token/ HTTP/1.1" 200 0
+Unauthorized: /api/token/
+"POST /api/token/ HTTP/1.1" 401 63
+"OPTIONS /api/users/token/email/ HTTP/1.1" 200 0
+Bad Request: /api/users/token/email/
+"POST /api/users/token/email/ HTTP/1.1" 400 61
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/token/
+"POST /api/token/ HTTP/1.1" 401 63
+Bad Request: /api/users/token/email/
+"POST /api/users/token/email/ HTTP/1.1" 400 61
+Unauthorized: /api/token/
+"POST /api/token/ HTTP/1.1" 401 63
+Bad Request: /api/users/token/email/
+"POST /api/users/token/email/ HTTP/1.1" 400 61
+Unauthorized: /api/token/
+"POST /api/token/ HTTP/1.1" 401 63
+Bad Request: /api/users/token/email/
+"POST /api/users/token/email/ HTTP/1.1" 400 61
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+"POST /api/users/users/ HTTP/1.1" 201 151
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/users/me/
+"GET /api/users/me/ HTTP/1.1" 401 172
+Unauthorized: /api/token/
+"POST /api/token/ HTTP/1.1" 401 63
+"POST /api/users/token/email/ HTTP/1.1" 200 491
+"GET /api/users/me/ HTTP/1.1" 200 151
+"OPTIONS /api/concours/concours/ HTTP/1.1" 200 0
+"OPTIONS /api/concours/concours/ HTTP/1.1" 200 0
+"GET /api/users/me/ HTTP/1.1" 200 151
+"GET /api/concours/concours/ HTTP/1.1" 200 827
+"GET /api/concours/concours/ HTTP/1.1" 200 827
+C:\Users\KURTIS\CascadeProjects\digital-concours\concours\models.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\users\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\concours\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\concours\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\notifications\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\KURTIS\CascadeProjects\digital-concours\notifications\views.py changed, reloading.
+Watching for file changes with StatReloader

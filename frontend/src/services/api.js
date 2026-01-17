@@ -7,8 +7,12 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('access');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  const url = config.url || '';
+  const AUTH_SKIP = ['token/', 'users/token/email/', 'users/users/'];
+  if (!AUTH_SKIP.some((p) => url.endsWith(p))) {
+    const token = localStorage.getItem('access');
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 

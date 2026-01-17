@@ -9,7 +9,7 @@ from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
 from .serializers import ConcoursSerializer, DossierSerializer, ResultatSerializer, SerieSerializer, MatiereSerializer, NoteSerializer
-from users.permissions import IsGestionnaireOrAdmin, IsCorrecteur, IsPresidentJury, IsSecretaireOrAdmin, IsCandidat
+from users.permissions import IsGestionnaireOrAdmin, IsCorrecteur, IsPresidentJury, IsSecretaireOrAdmin, IsCandidat, IsCorrecteurOrAdmin
 from users.models import AuditLog
 
 class ConcoursViewSet(viewsets.ModelViewSet):
@@ -19,6 +19,12 @@ class ConcoursViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        user = self.request.user
+
+        if user.is_authenticated and not user.is_superuser:
+            if user.role in ['gestionnaire', 'admin']:
+                qs = qs.filter(admins=user)
+        
         ouvert = self.request.query_params.get('ouvert')
         if ouvert == 'true':
             from django.utils import timezone as tz
@@ -44,6 +50,14 @@ class DossierViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
+        user = self.request.user
+        
+        if user.is_authenticated:
+            if user.role == 'candidat' and hasattr(user, 'candidat_profile'):
+                qs = qs.filter(candidat=user.candidat_profile)
+            elif user.role in ['gestionnaire', 'admin'] and not user.is_superuser:
+                qs = qs.filter(concours__admins=user)
+
         ref = self.request.query_params.get('reference')
         cid = self.request.query_params.get('candidat_id')
         if ref:
@@ -58,6 +72,21 @@ class DossierViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return [IsCandidat()]
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        if instance.statut == 'valide' and not instance.candidat.numero_candidat:
+            import random
+            import string
+            from users.models import Candidat
+            prefix = 'C' + timezone.now().strftime('%y')
+            while True:
+                suffix = ''.join(random.choices(string.digits, k=6))
+                num = f"{prefix}-{suffix}"
+                if not Candidat.objects.filter(numero_candidat=num).exists():
+                    instance.candidat.numero_candidat = num
+                    instance.candidat.save(update_fields=['numero_candidat'])
+                    break
     
 
 class ResultatViewSet(viewsets.ModelViewSet):
@@ -97,7 +126,23 @@ class MatiereViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             return [IsGestionnaireOrAdmin()]
+        if self.action == 'candidats':
+            return [IsCorrecteurOrAdmin()]
         return super().get_permissions()
+
+    @action(detail=True, methods=['get'])
+    def candidats(self, request, pk=None):
+        matiere = self.get_object()
+        dossiers = Dossier.objects.filter(serie=matiere.serie, statut='valide').select_related('candidat')
+        data = []
+        for d in dossiers:
+            note = Note.objects.filter(candidat=d.candidat, matiere=matiere).first()
+            data.append({
+                'dossier_id': d.id,
+                'candidat_numero': getattr(d.candidat, 'numero_candidat', 'Unknown'),
+                'note': NoteSerializer(note).data if note else None
+            })
+        return Response(data)
 
 class NoteViewSet(viewsets.ModelViewSet):
     queryset: QuerySet[Note] = Note.objects.all()
