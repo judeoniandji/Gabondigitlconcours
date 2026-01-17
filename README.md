@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Digitalisation des Concours Administratifs du Gabon
 
 ## Structure du projet
@@ -31,7 +30,7 @@
    ```bash
    npm install
    ```
-3. Lancer l’application :
+3. Lancer l'application :
    ```bash
    npm start
    ```
@@ -56,12 +55,12 @@
 - Twilio (SMS)
 
 ## Pour aller plus loin
-- Ajouter d’autres moyens de paiement
+- Ajouter d'autres moyens de paiement
 - Statistiques avancées, export PDF/Excel
 - API mobile
 
 ---
-Pour toute question, consulter la documentation dans le dossier `docs/` ou contacter l’équipe technique.
+Pour toute question, consulter la documentation dans le dossier `docs/` ou contacter l'équipe technique.
 
 ```
 digital-concours/
@@ -92,12 +91,12 @@ digital-concours/
 
 ## Identifiants de connexion de test
 
-- Nom d’utilisateur : **admin**
-- Nom d’utilisateur : **jude**
-- Nom d’utilisateur : **oniandjibernard**
+- Nom d'utilisateur : **admin**
+- Nom d'utilisateur : **jude**
+- Nom d'utilisateur : **oniandjibernard**
 - Mot de passe (pour tous) : **Anna1234**
 
-Utilisez ces identifiants pour vous connecter à l’application (frontend ou /admin/).
+Utilisez ces identifiants pour vous connecter à l'application (frontend ou /admin/).
 
 ## Prochaine étape
 Configurer la base de données PostgreSQL et connecter le backend.
@@ -105,6 +104,3 @@ Configurer la base de données PostgreSQL et connecter le backend.
 ---
 
 Pour toute question ou pour démarrer le développement métier, lance la prochaine étape ou demande un focus sur un point précis.
-=======
-# Gabondigitlconcours
->>>>>>> a7439b0531a045ec454c94e45cc2c13331556afd
