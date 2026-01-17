@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { register } from '../services/auth';
+import api from '../services/api';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ email: '', username: '', password: '', telephone: '', role: 'candidat', nom_complet: '', date_naissance: '', lieu_naissance: '', ville_naissance: '', adresse: '' });
@@ -7,6 +8,13 @@ export default function RegisterPage() {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({ email: '', username: '', password: '', telephone: '' });
+  const [concours, setConcours] = useState([]);
+
+  useEffect(() => {
+    api.get('concours/concours/?ouvert=true').then(res => {
+      setConcours(res.data || []);
+    }).catch(() => {});
+  }, []);
 
   const validateMsisdnGabon = (value) => {
     if (!value) return '';
@@ -98,7 +106,26 @@ export default function RegisterPage() {
               <input name="lieu_naissance" placeholder="Lieu de naissance" value={form.lieu_naissance} onChange={handleChange} style={{padding:'1em',border:'1px solid #e4e7ec',borderRadius:10,outline:'none'}} />
               <input name="ville_naissance" placeholder="Ville de naissance" value={form.ville_naissance} onChange={handleChange} style={{padding:'1em',border:'1px solid #e4e7ec',borderRadius:10,outline:'none'}} />
               <input name="adresse" placeholder="Adresse" value={form.adresse} onChange={handleChange} style={{padding:'1em',border:'1px solid #e4e7ec',borderRadius:10,outline:'none'}} />
-              <button type="submit" disabled={loading || !form.email || !form.username || !form.password || form.password.length < 6 || !!fieldErrors.email || !!fieldErrors.username || !!fieldErrors.password || !!fieldErrors.telephone} style={{padding:'1em',background: loading ? '#6c757d' : '#28a745',color:'#fff',border:'none',borderRadius:10,fontWeight:700,opacity: loading ? 0.8 : 1}}>S'inscrire</button>
+              {concours.length > 0 && (
+                <div style={{borderTop:'1px solid #e4e7ec',paddingTop:'1em',marginTop:'0.5em'}}>
+                  <div style={{fontWeight:700,marginBottom:'0.75em',color:'#0d6efd'}}>📋 Concours ouverts aux inscriptions</div>
+                  <div style={{maxHeight:150,overflowY:'auto',display:'grid',gap:'0.5em'}}>
+                    {concours.map(c => (
+                      <div key={c.id} style={{border:'1px solid #e4e7ec',borderRadius:8,padding:'0.7em',background:'#f7f9fc',fontSize:13}}>
+                        <div style={{fontWeight:600,color:'#0d6efd'}}>{c.nom}</div>
+                        <div style={{display:'flex',justifyContent:'space-between',marginTop:'0.3em',color:'#667085'}}>
+                          <span>📅 Jusqu'au {new Date(c.date_fermeture).toLocaleDateString('fr-FR')}</span>
+                          <span style={{fontWeight:700,color:'#28a745'}}>{c.frais_inscription} FCFA</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{marginTop:'0.5em',fontSize:12,color:'#667085'}}>
+                    💡 Vous pourrez choisir un concours après votre inscription dans votre espace candidat.
+                  </div>
+                </div>
+              )}
+              <button type="submit" disabled={loading || !form.email || !form.username || !form.password || form.password.length < 6 || !!fieldErrors.email || !!fieldErrors.username || !!fieldErrors.password || !!fieldErrors.telephone} style={{padding:'1em',background: loading ? '#6c757d' : '#28a745',color:'#fff',border:'none',borderRadius:10,fontWeight:700,opacity: loading ? 0.8 : 1,marginTop:'1em'}}>S'inscrire</button>
             </div>
           </form>
           {error && <div style={{color:'#b00020',marginTop:'1em'}}>{error}</div>}

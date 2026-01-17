@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { login } from '../services/auth';
+import api from '../services/api';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [concours, setConcours] = useState([]);
+
+  useEffect(() => {
+    api.get('concours/concours/?ouvert=true').then(res => {
+      setConcours(res.data || []);
+    }).catch(() => {});
+  }, []);
 
   const handleLogin = async e => {
     e.preventDefault();
@@ -66,6 +74,25 @@ export default function LoginPage() {
             </div>
             <div style={{marginTop:'0.75em',color:'#667085'}}>Vos données sont protégées</div>
           </div>
+          {concours.length > 0 && (
+            <div style={{marginTop:'1.5em',borderTop:'1px solid #f0f2f5',paddingTop:'1.5em'}}>
+              <div style={{fontWeight:800,marginBottom:'0.75em',fontSize:18}}>Concours ouverts aux inscriptions</div>
+              <div style={{display:'grid',gap:'0.75em',maxHeight:200,overflowY:'auto'}}>
+                {concours.map(c => (
+                  <div key={c.id} style={{border:'1px solid #e4e7ec',borderRadius:10,padding:'0.9em',background:'#f7f9fc'}}>
+                    <div style={{fontWeight:700,color:'#0d6efd',marginBottom:'0.3em'}}>{c.nom}</div>
+                    {c.description && <div style={{fontSize:13,color:'#667085',marginBottom:'0.3em'}}>{c.description.substring(0, 100)}{c.description.length > 100 ? '...' : ''}</div>}
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'0.5em'}}>
+                      <div style={{fontSize:13,color:'#667085'}}>
+                        📅 {new Date(c.date_ouverture).toLocaleDateString('fr-FR')} - {new Date(c.date_fermeture).toLocaleDateString('fr-FR')}
+                      </div>
+                      <div style={{fontWeight:700,color:'#28a745'}}>{c.frais_inscription} FCFA</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <div style={{marginTop:'1.75em',borderTop:'1px solid #f0f2f5',paddingTop:'0.75em',color:'#667085',fontSize:12,textAlign:'center'}}>
             Plateforme officielle des concours administratifs · République Gabonaise<br />© 2025 – Accès sécurisé
           </div>

@@ -29,7 +29,7 @@ export default function CandidatePortalPage() {
 
   useEffect(() => {
     const load = async () => {
-      const resC = await api.get('concours/concours/');
+      const resC = await api.get('concours/concours/?ouvert=true');
       setConcours(resC.data);
       const resS = await api.get('concours/series/');
       setSeries(resS.data);
