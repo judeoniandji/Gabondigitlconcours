@@ -6,6 +6,7 @@ from .models import Notification, Message
 from .serializers import NotificationSerializer, MessageSerializer
 
 class NotificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -20,6 +21,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
         return Response({'status': 'ok'})
 
 class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
 

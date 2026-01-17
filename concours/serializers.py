@@ -4,9 +4,20 @@ from .models import Serie, Matiere, Note
 from users.models import Candidat
 
 class ConcoursSerializer(serializers.ModelSerializer):
+    documents_requis_list = serializers.SerializerMethodField()
+    limite_age_display = serializers.SerializerMethodField()
+    
     class Meta:
         model = Concours
         fields = '__all__'
+    
+    def get_documents_requis_list(self, obj):
+        """Retourne la liste des documents requis sous forme de liste"""
+        return obj.get_documents_requis_list()
+    
+    def get_limite_age_display(self, obj):
+        """Retourne l'affichage formaté de la limite d'âge"""
+        return obj.get_limite_age_display()
 
 class DossierSerializer(serializers.ModelSerializer):
     candidat_numero = serializers.SerializerMethodField()
