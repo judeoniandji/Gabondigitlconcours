@@ -4,7 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Sum, F
+from django.db import models
+from django.db.models import Sum, F, Prefetch
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
@@ -133,10 +134,23 @@ class MatiereViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def candidats(self, request, pk=None):
         matiere = self.get_object()
-        dossiers = Dossier.objects.filter(serie=matiere.serie, statut='valide').select_related('candidat')
+        # Optimization: Resolve N+1 query on notes.
+        # Prefetch all notes for the given matiere and related candidats.
+        # This reduces the query count from N+1 to 2.
+        dossiers = Dossier.objects.filter(
+            serie=matiere.serie, statut='valide'
+        ).select_related('candidat').prefetch_related(
+            Prefetch(
+                'candidat__note_set',
+                queryset=Note.objects.filter(matiere=matiere),
+                to_attr='notes_for_matiere'
+            )
+        )
+
         data = []
         for d in dossiers:
-            note = Note.objects.filter(candidat=d.candidat, matiere=matiere).first()
+            # Use the prefetched note if it exists
+            note = d.candidat.notes_for_matiere[0] if hasattr(d.candidat, 'notes_for_matiere') and d.candidat.notes_for_matiere else None
             data.append({
                 'dossier_id': d.id,
                 'candidat_numero': getattr(d.candidat, 'numero_candidat', 'Unknown'),
