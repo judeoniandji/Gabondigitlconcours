@@ -91,3 +91,37 @@ class JuryFlowTest(TestCase):
         note.refresh_from_db()
         self.assertEqual(note.etat, 'valide')
         self.assertEqual(note.valide_par, self.president)
+
+    def test_candidats_endpoint_performance(self):
+        """
+        Tests that the /matieres/{id}/candidats/ endpoint is performant
+        and does not suffer from N+1 query issues.
+        """
+        # Validate the dossier from setUp to include it in the query
+        self.dossier.statut = 'valide'
+        self.dossier.save()
+
+        # Create 10 candidates and dossiers
+        for i in range(10):
+            user = User._default_manager.create_user(f'candidat{i}', f'cand{i}@test.com', 'pass', role='candidat')
+            candidat = Candidat._default_manager.create(user=user, nom_complet=f"Candidat {i}")
+            Dossier._default_manager.create(
+                candidat=candidat,
+                concours=self.concours,
+                serie=self.serie,
+                statut='valide'
+            )
+
+        self.client.force_authenticate(user=self.correcteur)
+
+        # Expect 4 queries:
+        # 1. Get user
+        # 2. Get matiere
+        # 3. Get dossiers
+        # 4. Prefetch notes
+        with self.assertNumQueries(4):
+            res = self.client.get(f'/api/concours/matieres/{self.matiere.id}/candidats/')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        # 10 created + 1 from setUp
+        self.assertEqual(len(res.data), 11)
