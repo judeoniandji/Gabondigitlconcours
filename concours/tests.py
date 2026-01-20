@@ -91,3 +91,32 @@ class JuryFlowTest(TestCase):
         note.refresh_from_db()
         self.assertEqual(note.etat, 'valide')
         self.assertEqual(note.valide_par, self.president)
+
+    def test_candidats_list_performance(self):
+        """
+        BOLT ⚡: Verify that the N+1 query optimization for the candidats list is effective.
+        Should only perform 2 queries: one for dossiers and one for notes.
+        """
+        # 1. Setup multiple candidates and dossiers to simulate a real scenario
+        for i in range(5):
+            user = User._default_manager.create_user(f'candidat{i}', f'cand{i}@test.com', 'pass', role='candidat')
+            candidat_profile = Candidat._default_manager.create(user=user, nom_complet=f"Candidate {i}")
+            Dossier._default_manager.create(
+                candidat=candidat_profile,
+                concours=self.concours,
+                serie=self.serie,
+                statut='valide' # Make sure they are included in the query
+            )
+
+        # 2. Authenticate and call the endpoint, asserting the query count
+        self.client.force_authenticate(user=self.correcteur)
+
+        # We expect 2 queries:
+        # 1. SELECT ... FROM "concours_matiere" ... (DRF's initial fetch)
+        # 2. SELECT ... FROM "concours_dossier" ... (Our main dossier query)
+        # 3. SELECT ... FROM "concours_note" ... (Our optimized notes pre-fetch)
+        with self.assertNumQueries(3):
+            res = cast(Response, self.client.get(f'/api/concours/matieres/{self.matiere.id}/candidats/'))
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(res.data), 5)

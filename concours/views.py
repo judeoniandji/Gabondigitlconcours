@@ -123,6 +123,10 @@ class MatiereViewSet(viewsets.ModelViewSet):
     queryset: QuerySet[Matiere] = Matiere.objects.all()
     serializer_class = MatiereSerializer
 
+    def get_queryset(self):
+        # BOLT ⚡: Pre-fetching the related 'serie' to avoid an extra DB query in the 'candidats' action.
+        return super().get_queryset().select_related('serie')
+
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             return [IsGestionnaireOrAdmin()]
@@ -134,9 +138,18 @@ class MatiereViewSet(viewsets.ModelViewSet):
     def candidats(self, request, pk=None):
         matiere = self.get_object()
         dossiers = Dossier.objects.filter(serie=matiere.serie, statut='valide').select_related('candidat')
+
+        # BOLT ⚡: N+1 query optimization
+        # Pre-fetch all notes for the candidates in a single query to avoid one query per candidate.
+        # This reduces the number of DB queries from N+1 to 2, where N is the number of dossiers.
+        candidat_ids = [d.candidat.id for d in dossiers]
+        notes = Note.objects.filter(candidat_id__in=candidat_ids, matiere=matiere)
+        notes_by_candidat = {note.candidat_id: note for note in notes}
+
         data = []
         for d in dossiers:
-            note = Note.objects.filter(candidat=d.candidat, matiere=matiere).first()
+            # Use the pre-fetched dictionary for efficient note lookup
+            note = notes_by_candidat.get(d.candidat.id)
             data.append({
                 'dossier_id': d.id,
                 'candidat_numero': getattr(d.candidat, 'numero_candidat', 'Unknown'),
