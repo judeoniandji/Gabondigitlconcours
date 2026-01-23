@@ -134,9 +134,19 @@ class MatiereViewSet(viewsets.ModelViewSet):
     def candidats(self, request, pk=None):
         matiere = self.get_object()
         dossiers = Dossier.objects.filter(serie=matiere.serie, statut='valide').select_related('candidat')
+
+        # Bolt ⚡: N+1 query optimization
+        # Original code performed one query per dossier to fetch the note.
+        # This optimization fetches all notes for the matière in a single query
+        # and uses a dictionary for a fast in-memory lookup.
+        # Impact: Reduces queries from N+1 to 2 for this action.
+        candidat_ids = [d.candidat.id for d in dossiers]
+        notes = Note.objects.filter(candidat_id__in=candidat_ids, matiere=matiere)
+        notes_by_candidat = {note.candidat_id: note for note in notes}
+
         data = []
         for d in dossiers:
-            note = Note.objects.filter(candidat=d.candidat, matiere=matiere).first()
+            note = notes_by_candidat.get(d.candidat.id)
             data.append({
                 'dossier_id': d.id,
                 'candidat_numero': getattr(d.candidat, 'numero_candidat', 'Unknown'),
