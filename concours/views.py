@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Sum, F
+from django.db.models import Sum, F, FloatField, ExpressionWrapper
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
@@ -105,18 +105,44 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
+
+        # Le calcul est maintenant entièrement fait en base de données pour une meilleure performance.
+        # On annote chaque candidat avec son score total pondéré et la somme des coefficients.
+        # la division se fait en flottants pour préserver la précision.
+        #
+        # Voici les étapes de l'optimisation :
+        # 1. `serie.matieres.aggregate(total_coeff=Sum('coefficient'))`: Calcule la somme totale des coefficients pour la série.
+        # 2. `Note.objects.filter(matiere__serie=serie, etat='valide')`: Filtre les notes validées pour la série.
+        # 3. `.values('candidat__numero_candidat')`: Regroupe les notes par candidat.
+        # 4. `.annotate(total_points=Sum(F('valeur') * F('matiere__coefficient')))`: Calcule le total des points pondérés pour chaque candidat.
+        # 5. `total_coeff = serie.matieres.aggregate(total_coeff=Sum('coefficient'))['total_coeff'] or 1.0`: Récupère la somme des coefficients.
+        # 6. `moyenne = F('total_points') / float(total_coeff)`: Calcule la moyenne.
+        # 7. `.order_by('-moyenne')`: Ordonne les résultats par moyenne décroissante.
+
+        total_coeff = serie.matieres.aggregate(total_coeff=Sum('coefficient'))['total_coeff'] or 1.0
+
+        classement_qs = Note.objects.filter(matiere__serie=serie, etat='valide') \
+            .values('candidat__numero_candidat') \
+            .annotate(
+                total_points=Sum(F('valeur') * F('matiere__coefficient'))
+            ) \
+            .annotate(
+                moyenne=ExpressionWrapper(
+                    F('total_points') / float(total_coeff),
+                    output_field=FloatField()
+                )
+            ) \
+            .order_by('-moyenne')
+
+        # Formatage du résultat final
+        classement = [
+            {
+                'numero_candidat': item['candidat__numero_candidat'],
+                'moyenne': round(item['moyenne'], 2)
+            }
+            for item in classement_qs
+        ]
+
         return Response({'serie': serie.id, 'classement': classement})
 
 class MatiereViewSet(viewsets.ModelViewSet):
