@@ -91,3 +91,49 @@ class JuryFlowTest(TestCase):
         note.refresh_from_db()
         self.assertEqual(note.etat, 'valide')
         self.assertEqual(note.valide_par, self.president)
+
+    def test_classement_generation(self):
+        # Manually set number for test consistency
+        self.candidat_profile.numero_candidat = "C25-123456"
+        self.candidat_profile.save()
+
+        # Setup additional data
+        m2 = Matiere._default_manager.create(nom="Français", coefficient=2, serie=self.serie)
+
+        u2 = User._default_manager.create_user('c2', 'c2@test.com', 'pass', role='candidat')
+        p2 = Candidat._default_manager.create(user=u2, numero_candidat="C25-000002")
+
+        u3 = User._default_manager.create_user('c3', 'c3@test.com', 'pass', role='candidat')
+        p3 = Candidat._default_manager.create(user=u3, numero_candidat="C25-000003")
+
+        # Notes
+        Note._default_manager.create(candidat=self.candidat_profile, matiere=self.matiere, valeur=12, etat='valide')
+        Note._default_manager.create(candidat=self.candidat_profile, matiere=m2, valeur=10, etat='valide')
+
+        Note._default_manager.create(candidat=p2, matiere=self.matiere, valeur=15, etat='valide')
+        Note._default_manager.create(candidat=p2, matiere=m2, valeur=8, etat='valide')
+
+        Note._default_manager.create(candidat=p3, matiere=self.matiere, valeur=10, etat='valide')
+        Note._default_manager.create(candidat=p3, matiere=m2, valeur=16, etat='valide')
+
+        # Expected averages:
+        # C1 (me): (12*4 + 10*2) / 6 = 68/6 = 11.33
+        # C2: (15*4 + 8*2) / 6 = 76/6 = 12.67
+        # C3: (10*4 + 16*2) / 6 = 72/6 = 12.00
+
+        self.client.force_authenticate(user=self.admin)
+        res = cast(Response, self.client.get(f'/api/concours/series/{self.serie.id}/classement/'))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+        classement = res.data['classement']
+        self.assertEqual(len(classement), 3)
+
+        # Check order and values
+        self.assertEqual(classement[0]['numero_candidat'], "C25-000002")
+        self.assertEqual(classement[0]['moyenne'], 12.67)
+
+        self.assertEqual(classement[1]['numero_candidat'], "C25-000003")
+        self.assertEqual(classement[1]['moyenne'], 12.00)
+
+        self.assertEqual(classement[2]['numero_candidat'], self.candidat_profile.numero_candidat)
+        self.assertEqual(classement[2]['moyenne'], 11.33)
