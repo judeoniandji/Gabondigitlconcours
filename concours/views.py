@@ -105,18 +105,34 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
+        # ⚡ Bolt: Offload aggregation to the database for performance.
+        # This avoids loading all notes into memory and looping in Python.
+
+        # 1. Calculate the total coefficient for the series
+        coeff_sum = serie.matieres.aggregate(total=Sum('coefficient'))['total'] or 1.0
+
+        # 2. Use the ORM to calculate the weighted average for each candidate
+        #    - Filter for 'valide' notes in the current series.
+        #    - Group by candidate.
+        #    - Annotate with the calculated score.
+        #    - Order by the score to get the ranking.
+        classement_query = Note.objects.filter(
+            matiere__serie=serie, etat='valide'
+        ).values(
+            'candidat__numero_candidat'  # Group by candidate number
+        ).annotate(
+            score=Sum(F('valeur') * F('matiere__coefficient'))
+        ).order_by('-score')
+
+        # 3. Format the result
+        classement = [
+            {
+                'numero_candidat': item['candidat__numero_candidat'],
+                'moyenne': round(float(item['score']) / float(coeff_sum), 2)
+            }
+            for item in classement_query
+        ]
+
         return Response({'serie': serie.id, 'classement': classement})
 
 class MatiereViewSet(viewsets.ModelViewSet):
