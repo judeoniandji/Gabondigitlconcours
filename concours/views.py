@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.models import Sum, F
+from django.db.models import Sum, F, FloatField
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from .models import Concours, Dossier, Resultat, Serie, Matiere, Note
@@ -105,18 +105,28 @@ class SerieViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def classement(self, request, pk=None):
         serie = self.get_object()
-        matieres = list(serie.matieres.all())
-        coeff_sum = sum([float(m.coefficient) for m in matieres]) or 1.0
-        # notes validées par candidat
-        notes = Note.objects.filter(matiere__serie=serie, etat='valide')
-        # regroupement par candidat
-        scores = {}
-        for n in notes.select_related('matiere', 'candidat'):
-            num = getattr(n.candidat, 'numero_candidat', n.candidat_id)
-            scores.setdefault(num, 0.0)
-            scores[num] += float(n.valeur) * float(n.matiere.coefficient)
-        classement = [{'numero_candidat': k, 'moyenne': round(v/coeff_sum, 2)} for k, v in scores.items()]
-        classement.sort(key=lambda x: x['moyenne'], reverse=True)
+        coeff_sum = serie.matieres.aggregate(total=Sum('coefficient'))['total'] or 1.0
+
+        # Optimisation: Agréger les scores directement en base de données
+        classement_qs = Note.objects.filter(
+            matiere__serie=serie, etat='valide'
+        ).values(
+            'candidat__numero_candidat'
+        ).annotate(
+            total_points=Sum(F('valeur') * F('matiere__coefficient'), output_field=FloatField())
+        ).annotate(
+            moyenne=F('total_points') / float(coeff_sum)
+        ).order_by('-moyenne')
+
+        # Formattage pour la réponse
+        classement = [
+            {
+                'numero_candidat': item['candidat__numero_candidat'],
+                'moyenne': round(item['moyenne'], 2)
+            }
+            for item in classement_qs
+        ]
+
         return Response({'serie': serie.id, 'classement': classement})
 
 class MatiereViewSet(viewsets.ModelViewSet):
