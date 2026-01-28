@@ -134,9 +134,15 @@ class MatiereViewSet(viewsets.ModelViewSet):
     def candidats(self, request, pk=None):
         matiere = self.get_object()
         dossiers = Dossier.objects.filter(serie=matiere.serie, statut='valide').select_related('candidat')
+
+        # Pré-fetch des notes pour éviter les requêtes N+1
+        candidat_ids = [d.candidat.id for d in dossiers]
+        notes = Note.objects.filter(candidat_id__in=candidat_ids, matiere=matiere)
+        notes_map = {note.candidat_id: note for note in notes}
+
         data = []
         for d in dossiers:
-            note = Note.objects.filter(candidat=d.candidat, matiere=matiere).first()
+            note = notes_map.get(d.candidat.id)
             data.append({
                 'dossier_id': d.id,
                 'candidat_numero': getattr(d.candidat, 'numero_candidat', 'Unknown'),
